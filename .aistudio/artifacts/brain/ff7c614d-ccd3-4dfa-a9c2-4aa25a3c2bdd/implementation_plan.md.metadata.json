@@ -1,0 +1,6 @@
+{
+  "summary":  "已更新实施方案：明确采用原生 IndexedDB 对生成的图片数据、元信息、Prompt及参数进行持久化存储，支持高容量离线保存、多维度检索与批量ZIP打包导出。",
+  "updatedAt":  "2026-10-21T07:21:55.241434747Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}

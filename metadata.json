@@ -1,0 +1,6 @@
+{
+  "name": "豆包 Seedream AI 生图工作台",
+  "description": "专业级火山引擎豆包 Seedream 图像生成工作台，支持 BYOK 自主密钥、多维参数精调、风格预设、提示词队列与变量模板批量生成、IndexedDB 持久化存储与 ZIP 打包归档。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
