@@ -31,10 +31,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          # 请勿在未提交 package-lock.json 时配置 cache: 'npm'，以避免报错
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci || npm install --legacy-peer-deps
+          else
+            npm install --legacy-peer-deps
+          fi
+
+
 
       - name: Build application
         run: npm run build

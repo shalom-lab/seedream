@@ -14,12 +14,14 @@ import {
   FileCode2,
   Maximize2,
   FileSpreadsheet,
+  Coins,
 } from 'lucide-react';
 import { ApiConfig, BatchTask, GeneratedImage, GenerationParameters, ImageSize, TemplateVariable } from '../types';
 import { parseMultilinePrompts, extractTemplateVariables, expandMatrixTemplate } from '../services/batchEngine';
 import { generateSeedreamImage } from '../services/arkApi';
 import { saveImageToDB } from '../services/db';
 import { exportImagesToZip } from '../services/zipExport';
+import { getModelUnitPrice, formatCost } from '../services/pricing';
 
 interface BatchStudioProps {
   apiConfig: ApiConfig;
@@ -188,6 +190,7 @@ export const BatchStudio: React.FC<BatchStudioProps> = ({
           apiConfig
         );
 
+        const unitCost = getModelUnitPrice(batchParams.model);
         const newImage: GeneratedImage = {
           id: `img_batch_${Date.now()}_${i}`,
           prompt: task.prompt,
@@ -198,6 +201,7 @@ export const BatchStudio: React.FC<BatchStudioProps> = ({
           createdAt: Date.now(),
           durationMs: result.durationMs,
           favorite: false,
+          cost: unitCost,
         };
 
         // Save to IndexedDB
@@ -331,9 +335,10 @@ export const BatchStudio: React.FC<BatchStudioProps> = ({
               onChange={(e) => setBatchParams({ ...batchParams, model: e.target.value })}
               className="w-full bg-white border border-slate-200 rounded px-2 py-1 text-slate-700"
             >
-              <option value="doubao-seedream-5.0-lite">Seedream 5.0 Lite (推荐)</option>
-              <option value="doubao-seedream-5-0-260128">Seedream 5.0 快照 (260128)</option>
-              <option value="doubao-seedream-4.0-lite">Seedream 4.0 Lite</option>
+              <option value="doubao-seedream-5.0-lite">Seedream 5.0 Lite (¥0.22/张 · 推荐)</option>
+              <option value="doubao-seedream-5-0-260128">Seedream 5.0 快照 (¥0.22/张)</option>
+              <option value="doubao-seedream-5.0-pro">Seedream 5.0 Pro (¥0.30/张 · 旗舰)</option>
+              <option value="doubao-seedream-4.0-lite">Seedream 4.0 Lite (¥0.18/张)</option>
             </select>
 
           </div>
@@ -535,14 +540,26 @@ export const BatchStudio: React.FC<BatchStudioProps> = ({
       {/* Queue Execution Status & Controls */}
       <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-4 text-xs">
+          <div className="flex flex-wrap items-center gap-3 text-xs">
             <span className="font-semibold text-slate-800 text-sm">任务执行队列</span>
-            <div className="flex items-center gap-3 text-slate-500">
+            <div className="flex items-center gap-2.5 text-slate-500">
               <span>总数: <strong className="text-slate-800 tabular-nums">{stats.total}</strong></span>
               <span>成功: <strong className="text-emerald-600 tabular-nums">{stats.success}</strong></span>
               <span>失败: <strong className="text-red-600 tabular-nums">{stats.failed}</strong></span>
               <span>等待: <strong className="text-slate-600 tabular-nums">{stats.pending}</strong></span>
             </div>
+            {stats.total > 0 && (
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-800">
+                <Coins className="w-3.5 h-3.5 text-emerald-600" />
+                <span>预计预算: <strong>{formatCost(stats.total * getModelUnitPrice(batchParams.model))}</strong></span>
+                <span className="text-emerald-600">({formatCost(getModelUnitPrice(batchParams.model))}/张)</span>
+                {stats.success > 0 && (
+                  <span className="border-l border-emerald-300 pl-1.5 font-medium">
+                    已产生: {formatCost(stats.success * getModelUnitPrice(batchParams.model))}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Action buttons */}

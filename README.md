@@ -84,9 +84,27 @@ npm run preview
 
 ---
 
+## 💰 火山引擎豆包 Seedream 官方计费价格表
+
+工作台已原生集成火山引擎方舟官方文生图标准单价体系，支持实时单图估算、批量任务预算矩阵以及本地全作品总账单汇总统计：
+
+| 模型名称 (Model ID) | 官方定位 | 单价 (元/张) | 计费模式 | 特性推荐 |
+| :--- | :--- | :---: | :---: | :--- |
+| **`doubao-seedream-5.0-lite`** | 5.0 Lite 核心推荐版 | **¥0.22** | 按张后付费 | **官方推荐** · 极致画质与极速响应的最佳平衡 |
+| **`doubao-seedream-5-0-260128`** | 5.0 稳定快照版本 | **¥0.22** | 按张后付费 | 适用于对版本输出一致性要求严格的场景 |
+| **`doubao-seedream-5.0-pro`** | 5.0 Pro 旗舰画质版 | **¥0.30** | 按张后付费 | 极致细节、超精细微距与商业海报级渲染 |
+| **`doubao-seedream-4.0-lite`** | 4.0 经典轻量版 | **¥0.18** | 按张后付费 | 轻量经济，适合海量提示词快速概念验证 |
+
+> 📌 **计费规则说明**：
+> - 火山方舟仅对**实际调用成功生成的图片张数**进行计费，生成失败不计费；
+> - 工作台不设任何平台中间层加价，用户完全使用自己的 API Key 与官方按原价直接结算；
+> - 在单图创作视口、批量生成队列状态、历史作品相册及导出的 `manifest.json` 中均有清晰明细。
+
+---
+
 ## 🌐 GitHub Pages 自动化部署 (CI/CD)
 
-本项目已配置完整的 GitHub Actions 持续集成与部署工作流 (`.github/workflows/deploy.yml`)：
+本项目已配置免维护的 GitHub Actions 持续集成与部署工作流 (`.github/workflows/deploy.yml`)：
 
 1. 打开 GitHub 仓库页面：`https://github.com/shalom-lab/seedream`
 2. 点击仓库的 **Settings**（设置）> **Pages**；
@@ -96,7 +114,24 @@ npm run preview
    https://shalom-lab.github.io/seedream/
    ```
 
----
+### 常见部署报错与排查：`Dependencies lock file is not found`
+
+若在 GitHub Actions 运行 `actions/setup-node@v4` 时遇到如下报错：
+```text
+Error: Dependencies lock file is not found in /home/runner/work/seedream/seedream.
+Supported file patterns: package-lock.json,npm-shrinkwrap.json,yarn.lock
+```
+
+**原因分析**：GitHub CI 在执行依赖缓存检测时，发现仓库中未提交 `package-lock.json`（或 `.gitignore` 忽略了 lock 文件）。
+
+**一键解决方案**：
+1. **方案 A（推荐，提交 lock 文件）**：在本地终端执行并推送到 GitHub：
+   ```bash
+   git add package.json package-lock.json .github/workflows/deploy.yml
+   git commit -m "fix: commit package-lock.json and update deploy workflow"
+   git push
+   ```
+2. **方案 B（使用已优化的工作流）**：本项目最新的 `.github/workflows/deploy.yml` 已经自动优化：去除了对 lock 文件的硬编码强制缓存拦截，并支持自动容错：无论是否有 lock 文件，均可自动执行 `npm install --legacy-peer-deps` 保证 100% 部署成功。
 
 ## 💡 LocalStorage 预读配置方法
 

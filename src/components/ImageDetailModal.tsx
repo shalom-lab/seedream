@@ -11,8 +11,10 @@ import {
   ExternalLink,
   ChevronRight,
   Code,
+  Coins,
 } from 'lucide-react';
 import { GeneratedImage, GenerationParameters } from '../types';
+import { getModelUnitPrice, formatCost } from '../services/pricing';
 
 interface ImageDetailModalProps {
   image: GeneratedImage | null;
@@ -147,6 +149,16 @@ export const ImageDetailModal: React.FC<ImageDetailModalProps> = ({
                   <div className="text-slate-400">渲染耗时</div>
                   <div className="font-medium text-slate-800 mt-0.5 tabular-nums">
                     {(image.durationMs / 1000).toFixed(2)} 秒
+                  </div>
+                </div>
+                <div className="p-2.5 rounded-lg bg-emerald-50/70 border border-emerald-100">
+                  <div className="text-emerald-700 flex items-center gap-1 font-medium">
+                    <Coins className="w-3 h-3 text-emerald-600" />
+                    <span>官方计费</span>
+                  </div>
+                  <div className="font-semibold text-emerald-900 mt-0.5">
+                    {formatCost(image.cost !== undefined ? image.cost : getModelUnitPrice(image.model))}
+                    <span className="text-[10px] text-emerald-600 font-normal ml-1">/ 张</span>
                   </div>
                 </div>
                 <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">

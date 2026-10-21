@@ -16,6 +16,7 @@ import {
   saveImageToDB,
 } from './services/db';
 import { DEFAULT_PROMPT_EXAMPLES } from './data/stylePresets';
+import { getModelUnitPrice } from './services/pricing';
 
 export const STORAGE_KEY_API_KEY = 'ARK_API_KEY';
 export const STORAGE_KEY_CONFIG = 'DOUBAO_ARK_CONFIG_V1';
@@ -176,6 +177,10 @@ export default function App() {
     setIsScriptModalOpen(true);
   };
 
+  const totalCost = galleryImages.reduce((sum, img) => {
+    return sum + (img.cost !== undefined ? img.cost : getModelUnitPrice(img.model));
+  }, 0);
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
       {/* 3-Zone Top Bar */}
@@ -191,6 +196,7 @@ export default function App() {
         onOpenApiKeyModal={() => setIsApiKeyModalOpen(true)}
         hasApiKey={Boolean(apiConfig.apiKey)}
         galleryCount={galleryImages.length}
+        totalCost={totalCost}
       />
 
       {/* Main Workspace Body */}

@@ -12,9 +12,11 @@ import {
   Clock,
   Layers,
   Archive,
+  Coins,
 } from 'lucide-react';
 import { GeneratedImage, GenerationParameters } from '../types';
 import { exportImagesToZip } from '../services/zipExport';
+import { getModelUnitPrice, formatCost } from '../services/pricing';
 
 interface GalleryViewProps {
   images: GeneratedImage[];
@@ -112,6 +114,12 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
             <h2 className="text-base font-semibold text-slate-800 flex items-center gap-2">
               <ImageIcon className="w-4 h-4 text-blue-600" />
               <span>本地作品历史相册 (IndexedDB 持久化)</span>
+              {images.length > 0 && (
+                <span className="text-[11px] px-2 py-0.5 rounded-md font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+                  <Coins className="w-3 h-3 text-emerald-600" />
+                  <span>累计账单: {formatCost(images.reduce((sum, img) => sum + (img.cost !== undefined ? img.cost : getModelUnitPrice(img.model)), 0))}</span>
+                </span>
+              )}
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
               数据保存在本地浏览器数据库中，页面刷新不丢失，支持多选打包下载与参数回填
@@ -308,9 +316,14 @@ export const GalleryView: React.FC<GalleryViewProps> = ({
 
                   <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
                     <span className="font-mono">{img.size}</span>
-                    <span className="tabular-nums">
-                      {(img.durationMs / 1000).toFixed(1)}s
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] px-1 py-0.2 rounded bg-emerald-50 text-emerald-700 font-medium">
+                        {formatCost(img.cost !== undefined ? img.cost : getModelUnitPrice(img.model))}
+                      </span>
+                      <span className="tabular-nums">
+                        {(img.durationMs / 1000).toFixed(1)}s
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

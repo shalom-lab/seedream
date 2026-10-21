@@ -1,5 +1,6 @@
 import JSZip from 'jszip';
 import { GeneratedImage } from '../types';
+import { getModelUnitPrice } from './pricing';
 
 export async function exportImagesToZip(
   images: GeneratedImage[],
@@ -77,6 +78,7 @@ export async function exportImagesToZip(
         negativePrompt: item.negativePrompt || '',
         model: item.model,
         size: item.size,
+        cost: item.cost !== undefined ? item.cost : getModelUnitPrice(item.model),
         createdAt: new Date(item.createdAt).toISOString(),
         parameters: item.parameters,
       });
@@ -91,13 +93,26 @@ export async function exportImagesToZip(
         imageUrl: item.imageUrl,
         prompt: item.prompt,
         model: item.model,
+        cost: item.cost !== undefined ? item.cost : getModelUnitPrice(item.model),
       });
     }
 
   }
 
+  // Calculate total cost
+  const totalCostRMB = +manifestItems.reduce((acc, m) => acc + (m.cost || 0), 0).toFixed(2);
+
+  const manifestData = {
+    exportedAt: new Date().toISOString(),
+    totalImages: images.length,
+    totalCostRMB,
+    currency: 'CNY (人民币元)',
+    billingType: '火山引擎按张后付费',
+    images: manifestItems,
+  };
+
   // Add manifest and prompts files
-  zip.file('manifest.json', JSON.stringify(manifestItems, null, 2));
+  zip.file('manifest.json', JSON.stringify(manifestData, null, 2));
   zip.file('prompts.txt', promptsLines.join('\n\n'));
 
   if (onProgress) {

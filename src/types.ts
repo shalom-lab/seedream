@@ -33,6 +33,7 @@ export interface GeneratedImage {
   createdAt: number;
   durationMs: number;
   favorite: boolean;
+  cost?: number;
   width?: number;
   height?: number;
 }
@@ -65,6 +66,14 @@ export interface StylePreset {
   promptSuffix: string;
   negativePromptSuffix?: string;
   recommendedSize?: ImageSize;
+  colorTheme?: {
+    gradient: string;
+    border: string;
+    badgeBg: string;
+    badgeText: string;
+    iconBg: string;
+    iconColor: string;
+  };
 }
 
 

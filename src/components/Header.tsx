@@ -1,5 +1,5 @@
-import React from 'react';
-import { Key, Sparkles, Layers, Image as ImageIcon, Code2 } from 'lucide-react';
+import { Key, Sparkles, Layers, Image as ImageIcon, Code2, Coins } from 'lucide-react';
+import { formatCost } from '../services/pricing';
 
 export type NavTab = 'single' | 'batch' | 'gallery' | 'script';
 
@@ -9,6 +9,7 @@ interface HeaderProps {
   onOpenApiKeyModal: () => void;
   hasApiKey: boolean;
   galleryCount: number;
+  totalCost?: number;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -17,6 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenApiKeyModal,
   hasApiKey,
   galleryCount,
+  totalCost = 0,
 }) => {
   return (
     <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-xs border-b border-slate-200">
@@ -87,11 +89,21 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         </nav>
 
-        {/* Zone 3: Single Primary Action */}
-        <div className="flex items-center gap-3 shrink-0">
+        {/* Zone 3: Single Primary Action & Billing Summary */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          {totalCost > 0 && (
+            <div
+              className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-medium"
+              title="根据火山引擎官方按张计费标准累计"
+            >
+              <Coins className="w-3.5 h-3.5 text-emerald-600" />
+              <span>累计账单: <strong className="tabular-nums">{formatCost(totalCost)}</strong></span>
+            </div>
+          )}
+
           <button
             onClick={onOpenApiKeyModal}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all whitespace-nowrap shrink-0 ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all whitespace-nowrap shrink-0 cursor-pointer ${
               hasApiKey
                 ? 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
                 : 'bg-amber-50 border-amber-300 text-amber-800 hover:bg-amber-100 shadow-xs'
