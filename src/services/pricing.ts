@@ -14,25 +14,34 @@ export interface ModelPricingInfo {
 }
 
 export const OFFICIAL_MODEL_PRICING: Record<string, ModelPricingInfo> = {
+  'doubao-seedream-5-0-260128': {
+    id: 'doubao-seedream-5-0-260128',
+    name: 'Seedream 5.0 快照 (官方标准)',
+    series: '5.0 快照版',
+    pricePerImage: 0.22,
+    unit: '元/张',
+    description: '官方推荐 · 0.22元/张 · 速度画质兼具',
+    isRecommended: true,
+  },
   'doubao-seedream-5.0-lite': {
-    id: 'doubao-seedream-5.0-lite',
+    id: 'doubao-seedream-5-0-260128',
     name: 'Seedream 5.0 Lite',
     series: '5.0 Lite 系列',
     pricePerImage: 0.22,
     unit: '元/张',
-    description: '官方推荐 · 0.22元/张 · 速度与画质兼顾',
+    description: '映射至官方快照 · 0.22元/张',
     isRecommended: true,
   },
-  'doubao-seedream-5-0-260128': {
-    id: 'doubao-seedream-5-0-260128',
-    name: 'Seedream 5.0 快照',
-    series: '5.0 快照版',
-    pricePerImage: 0.22,
+  'doubao-seedream-5-0-pro': {
+    id: 'doubao-seedream-5-0-pro',
+    name: 'Seedream 5.0 Pro',
+    series: '5.0 Pro 旗舰',
+    pricePerImage: 0.30,
     unit: '元/张',
-    description: '官方版本快照 · 0.22元/张',
+    description: '旗舰级画质 · 0.30元起/张',
   },
   'doubao-seedream-5.0-pro': {
-    id: 'doubao-seedream-5.0-pro',
+    id: 'doubao-seedream-5-0-pro',
     name: 'Seedream 5.0 Pro',
     series: '5.0 Pro 旗舰',
     pricePerImage: 0.30,
@@ -60,12 +69,13 @@ export function getModelUnitPrice(modelId: string): number {
   if (OFFICIAL_MODEL_PRICING[trimmed]) {
     return OFFICIAL_MODEL_PRICING[trimmed].pricePerImage;
   }
-  if (trimmed.includes('5.0-pro') || trimmed.includes('5-0-pro')) {
+  if (trimmed.includes('5.0-pro') || trimmed.includes('5-0-pro') || trimmed.includes('pro')) {
     return 0.30;
   }
   if (trimmed.includes('4.0') || trimmed.includes('4-0')) {
     return 0.18;
   }
+  // 自定义 ep-xxxx 接入点默认按 5.0 Lite 计费 ¥0.22/张
   return DEFAULT_FALLBACK_PRICE;
 }
 

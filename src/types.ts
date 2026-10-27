@@ -1,5 +1,8 @@
 export type ImageSize =
+  | '2k'
   | '2K'
+  | '3k'
+  | '4k'
   | '1K'
   | '1024x1024'
   | '1280x720'
@@ -52,6 +55,7 @@ export interface BatchTask {
 export interface ApiConfig {
   apiKey: string;
   endpointUrl: string;
+  defaultModel?: string;
   isCustomProxy?: boolean;
 }
 

@@ -40,11 +40,11 @@ export const BatchStudio: React.FC<BatchStudioProps> = ({
 
   // Parameters applied to all batch tasks
   const [batchParams, setBatchParams] = useState<GenerationParameters>({
-    model: 'doubao-seedream-5.0-lite',
+    model: apiConfig.defaultModel || 'doubao-seedream-5.0-lite',
     prompt: '',
     sequential_image_generation: 'disabled',
     response_format: 'b64_json',
-    size: '2K',
+    size: '2k',
     stream: false,
     watermark: true,
   });
@@ -329,18 +329,17 @@ export const BatchStudio: React.FC<BatchStudioProps> = ({
         {/* Global Parameters Bar */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs bg-slate-50/70 p-3 rounded-lg border border-slate-100">
           <div>
-            <label className="block text-[11px] text-slate-500 mb-1">批量模型</label>
+            <label className="block text-[11px] text-slate-500 mb-1">批量模型 / 接入点</label>
             <select
               value={batchParams.model}
               onChange={(e) => setBatchParams({ ...batchParams, model: e.target.value })}
               className="w-full bg-white border border-slate-200 rounded px-2 py-1 text-slate-700"
             >
-              <option value="doubao-seedream-5.0-lite">Seedream 5.0 Lite (¥0.22/张 · 推荐)</option>
-              <option value="doubao-seedream-5-0-260128">Seedream 5.0 快照 (¥0.22/张)</option>
+              <option value="doubao-seedream-5.0-lite">Seedream 5.0 Lite (带点号标准 · ¥0.22/张)</option>
+              <option value="doubao-seedream-5-0-260128">Seedream 5.0 快照 (官方快照 · ¥0.22/张)</option>
+              <option value="doubao-seedream-4.0-lite">Seedream 4.0 Lite (¥0.18/张 · 经济版)</option>
               <option value="doubao-seedream-5.0-pro">Seedream 5.0 Pro (¥0.30/张 · 旗舰)</option>
-              <option value="doubao-seedream-4.0-lite">Seedream 4.0 Lite (¥0.18/张)</option>
             </select>
-
           </div>
           <div>
             <label className="block text-[11px] text-slate-500 mb-1">画质尺寸</label>
@@ -349,12 +348,12 @@ export const BatchStudio: React.FC<BatchStudioProps> = ({
               onChange={(e) => setBatchParams({ ...batchParams, size: e.target.value })}
               className="w-full bg-white border border-slate-200 rounded px-2 py-1 text-slate-700"
             >
-              <option value="2K">2K 高清 (推荐)</option>
-              <option value="1K">1K 标准</option>
-              <option value="1024x1024">1024x1024 (1:1)</option>
-              <option value="1280x720">1280x720 (16:9)</option>
-              <option value="720x1280">720x1280 (9:16)</option>
-              <option value="2048x1024">2048x1024 (2:1)</option>
+              <option value="2k">2K 高清 (官方推荐)</option>
+              <option value="1024x1024">1024x1024 (1:1 方形)</option>
+              <option value="1280x720">1280x720 (16:9 横屏)</option>
+              <option value="720x1280">720x1280 (9:16 竖屏)</option>
+              <option value="2048x1024">2048x1024 (2:1 宽幅)</option>
+              <option value="3k">3K 超清</option>
             </select>
           </div>
           <div>

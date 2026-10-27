@@ -29,6 +29,7 @@ function sanitizeKey(val: string | null): string {
 export function readStoredApiConfig(): ApiConfig {
   let key = '';
   let endpoint = 'https://ark.cn-beijing.volces.com/api/v3/images/generations';
+  let defaultModel = 'doubao-seedream-5.0-lite';
 
   if (typeof window !== 'undefined') {
     // 1. 优先读取标准纯字符串键名 ARK_API_KEY
@@ -47,6 +48,13 @@ export function readStoredApiConfig(): ApiConfig {
       endpoint = directEndpoint.trim();
     }
 
+    const directModel =
+      localStorage.getItem('ARK_MODEL') ||
+      localStorage.getItem('ARK_ENDPOINT_ID');
+    if (directModel && directModel.trim()) {
+      defaultModel = directModel.trim();
+    }
+
     // 2. 备用读取复合 JSON 对象
     try {
       const saved = localStorage.getItem(STORAGE_KEY_CONFIG);
@@ -54,13 +62,14 @@ export function readStoredApiConfig(): ApiConfig {
         const parsed = JSON.parse(saved);
         if (!key && parsed.apiKey) key = sanitizeKey(parsed.apiKey);
         if (parsed.endpointUrl) endpoint = parsed.endpointUrl;
+        if (parsed.defaultModel) defaultModel = parsed.defaultModel;
       }
     } catch (e) {
       console.warn('Failed to parse config from localStorage', e);
     }
   }
 
-  return { apiKey: key, endpointUrl: endpoint };
+  return { apiKey: key, endpointUrl: endpoint, defaultModel };
 }
 
 export default function App() {
@@ -72,11 +81,11 @@ export default function App() {
   // Script Modal state
   const [scriptPrompts, setScriptPrompts] = useState<string[]>([]);
   const [scriptParams, setScriptParams] = useState<GenerationParameters>({
-    model: 'doubao-seedream-5.0-lite',
+    model: 'doubao-seedream-5-0-260128',
     prompt: DEFAULT_PROMPT_EXAMPLES[0],
     sequential_image_generation: 'disabled',
     response_format: 'b64_json',
-    size: '2K',
+    size: '2k',
     stream: false,
     watermark: true,
   });

@@ -1,4 +1,5 @@
 import { ApiConfig, GenerationParameters } from '../types';
+import { normalizeSeedreamSize } from './arkApi';
 
 export function parseMultilinePrompts(text: string): string[] {
   return text
@@ -67,6 +68,7 @@ export function generateCurlScript(
 ): string {
   const endpoint = config.endpointUrl || 'https://ark.cn-beijing.volces.com/api/v3/images/generations';
   const apiKeyPlaceholder = config.apiKey ? config.apiKey : '$ARK_API_KEY';
+  const validSize = normalizeSeedreamSize(params.size);
 
   if (prompts.length <= 1) {
     const singlePrompt = (prompts[0] || params.prompt).replace(/"/g, '\\"');
@@ -82,7 +84,7 @@ curl -X POST "${endpoint}" \\
     "prompt": "${singlePrompt}",
     "sequential_image_generation": "${params.sequential_image_generation}",
     "response_format": "${params.response_format}",
-    "size": "${params.size}",
+    "size": "${validSize}",
     "stream": false,
     "watermark": ${params.watermark}
 }'
@@ -99,7 +101,7 @@ curl -X POST "${endpoint}" \\
 export ARK_API_KEY="${apiKeyPlaceholder}"
 ENDPOINT="${endpoint}"
 MODEL="${params.model}"
-SIZE="${params.size}"
+SIZE="${validSize}"
 WATERMARK=${params.watermark}
 
 PROMPTS=(
@@ -142,6 +144,7 @@ export function generatePythonRequestsScript(
 ): string {
   const endpoint = config.endpointUrl || 'https://ark.cn-beijing.volces.com/api/v3/images/generations';
   const apiKeyPlaceholder = config.apiKey ? config.apiKey : 'YOUR_ARK_API_KEY';
+  const validSize = normalizeSeedreamSize(params.size);
   const promptList = prompts.length > 0 ? prompts : [params.prompt];
   const promptsJson = JSON.stringify(promptList, null, 4);
 
@@ -161,7 +164,7 @@ import requests
 ARK_API_KEY = os.getenv("ARK_API_KEY", "${apiKeyPlaceholder}")
 ENDPOINT = "${endpoint}"
 MODEL = "${params.model}"
-SIZE = "${params.size}"
+SIZE = "${validSize}"
 WATERMARK = ${params.watermark ? 'True' : 'False'}
 SEQUENTIAL = "${params.sequential_image_generation}"
 RESPONSE_FORMAT = "${params.response_format}"
@@ -238,6 +241,7 @@ export function generateNodeJsScript(
 ): string {
   const endpoint = config.endpointUrl || 'https://ark.cn-beijing.volces.com/api/v3/images/generations';
   const apiKeyPlaceholder = config.apiKey ? config.apiKey : 'YOUR_ARK_API_KEY';
+  const validSize = normalizeSeedreamSize(params.size);
   const promptList = prompts.length > 0 ? prompts : [params.prompt];
   const promptsJson = JSON.stringify(promptList, null, 2);
 
@@ -254,7 +258,7 @@ import path from 'node:path';
 const ARK_API_KEY = process.env.ARK_API_KEY || "${apiKeyPlaceholder}";
 const ENDPOINT = "${endpoint}";
 const MODEL = "${params.model}";
-const SIZE = "${params.size}";
+const SIZE = "${validSize}";
 const WATERMARK = ${params.watermark};
 const SEQUENTIAL = "${params.sequential_image_generation}";
 const RESPONSE_FORMAT = "${params.response_format}";

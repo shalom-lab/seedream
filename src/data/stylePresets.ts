@@ -11,7 +11,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: '浓厚的末日与科幻大片质感，强视觉冲击力与深邃光影',
     promptSuffix: '，抢视觉冲击力，电影大片，末日既视感，动感，对比色，oc渲染，光线追踪，动态模糊，景深，超现实主义，深蓝，画面通过细腻丰富的色彩层次塑造主体与场景，质感真实，暗黑风背景光影营造氛围，极具艺术幻想感，夸张广角透视效果，耀光，反射，极致光影',
     negativePromptSuffix: '，低分辨率，画质粗糙，模糊，过度曝光，塑料感，画面单薄',
-    recommendedSize: '2K',
+    recommendedSize: '2k',
     colorTheme: {
       gradient: 'from-sky-50/60 to-slate-50',
       border: 'border-sky-200/80 hover:border-sky-400',
@@ -31,7 +31,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: '极致的三维建模材质质感，Octane 渲染与精准光影反射',
     promptSuffix: '，Octane Render，3D三维建模，极度精细，物理光线追踪，次表面散射材质，景深虚化，金属高光，硬朗轮廓光，8K分辨率，杰作，超写实物理着色器',
     negativePromptSuffix: '，低多边形，扁平化，杂色，模糊，锯齿，涂鸦',
-    recommendedSize: '2K',
+    recommendedSize: '2k',
     colorTheme: {
       gradient: 'from-indigo-50/60 to-purple-50/40',
       border: 'border-indigo-200/80 hover:border-indigo-400',
@@ -51,7 +51,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: '高饱和霓虹对比，雨夜沥青倒影与未来主义机甲美学',
     promptSuffix: '，赛博朋克风格，未来主义都市，雨夜湿漉沥青反光，青色与粉紫霓虹高对比光效，体积烟雾，悬浮光晕，全息投影粒子，机械结构细节，电影质感调色',
     negativePromptSuffix: '，黑白，过度饱和刺眼，噪点，粗制滥造',
-    recommendedSize: '2K',
+    recommendedSize: '2k',
     colorTheme: {
       gradient: 'from-fuchsia-50/60 to-pink-50/40',
       border: 'border-fuchsia-200/80 hover:border-fuchsia-400',
@@ -71,7 +71,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: '留白写意，水墨晕染与诗意古典东方美学',
     promptSuffix: '，东方水墨画风格，写意留白，淡雅墨色渲染，宋代美学韵味，山水意境，工笔细节与泼墨结合，细腻纸质肌理，诗情画意，意境深远，大师杰作',
     negativePromptSuffix: '，油腻，西式油画，浓烈反光，现代工业感，杂乱',
-    recommendedSize: '1K',
+    recommendedSize: '1024x1024',
     colorTheme: {
       gradient: 'from-stone-50 to-emerald-50/30',
       border: 'border-stone-200/80 hover:border-stone-400',
@@ -91,7 +91,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: '真实细腻的皮肤纹理、毛孔与影视级柔光箱布光',
     promptSuffix: '，哈苏中画幅相机拍摄，85mm人像镜头，f/1.4大光圈景深虚化，细腻真实的皮肤肌理与毛孔，自然柔和眼神光，商业杂志封面质感，顶级影视柔光箱布光，8K原生画质',
     negativePromptSuffix: '，塑料皮，磨皮过度，假人感，多余手指，肢体畸变，斗鸡眼',
-    recommendedSize: '2K',
+    recommendedSize: '2k',
     colorTheme: {
       gradient: 'from-amber-50/60 to-orange-50/30',
       border: 'border-amber-200/80 hover:border-amber-400',
@@ -111,7 +111,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: '新海诚风格清澈天空、云隙光与唯美通透色彩',
     promptSuffix: '，新海诚唯美动漫风格，通透清澈的天空，层次分明的积雨云，丁达尔光束穿透云层，高饱和纯净色彩，细致手绘背景，治愈系氛围，细腻光影跃动，壁纸画质',
     negativePromptSuffix: '，粗糙线稿，崩坏，脏乱，暗沉，写实人像',
-    recommendedSize: '2K',
+    recommendedSize: '2k',
     colorTheme: {
       gradient: 'from-cyan-50/60 to-blue-50/40',
       border: 'border-cyan-200/80 hover:border-cyan-400',
@@ -131,7 +131,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: '纯色微水泥背景，顶级工业设计与漫反射纯净光线',
     promptSuffix: '，极简主义商业静物摄影，高品质工业设计，纯色微水泥与大理石几何展台，柔和漫射天光，微弱柔和环境遮挡阴影，极致纯净构图，顶级奢华质感',
     negativePromptSuffix: '，杂乱背景，过度装饰，刺眼光晕，噪点，水印',
-    recommendedSize: '1K',
+    recommendedSize: '1024x1024',
     colorTheme: {
       gradient: 'from-zinc-50 to-slate-50',
       border: 'border-zinc-200/80 hover:border-zinc-400',
@@ -151,7 +151,7 @@ export const STYLE_PRESETS: StylePreset[] = [
     description: '黄铜齿轮、锅炉蒸汽与维多利亚复古机械幻想',
     promptSuffix: '，维多利亚蒸汽朋克风格，精密黄铜齿轮与铜管传动机构，高压蒸汽喷涌，暖褐色复古油画质感，精密机械轴承咬合，煤油灯暖光映照，工业复古厚重感',
     negativePromptSuffix: '，现代塑料，极简扁平，卡通低幼，灰暗模糊',
-    recommendedSize: '2K',
+    recommendedSize: '2k',
     colorTheme: {
       gradient: 'from-amber-50/70 to-orange-50/40',
       border: 'border-amber-200/80 hover:border-amber-400',
